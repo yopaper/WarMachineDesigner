@@ -1,38 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WMD.Basic;
 
 namespace WMD.VehicelsComponents
 {
-    public enum Direction
+    public abstract class BasicComponentTransform
     {
-        Null=5, Up=0, Down=2, Left=3, Right=1
-    }
-    public class BasicComponentTransform
-    {
+        // 偶數寬度
+        public bool EvenWidth => BlockSize.x % 2 == 0;
+        // 偶數長度
+        public bool EvenLength => BlockSize.y % 2 == 0;
+        // 零件大小
         public Vector2Int BlockSize { get; protected set; }
-        public Vector2Int BlockSizeWithDirection => GetBlockSizeWithDirection();
+        // 零件方向
         public Direction Direction { get; protected set; }
-        public Vector2Int BlockPosition { get; protected set; }
+        public Vector2 CenterPosition { get; protected set; }
+        public Vector2Int[] OccupiedPositionsOffset {get; protected set;}
+        public Vector2Int[] RootPositionsOffset {get; protected set;}
+        public Vector2Int[] BlockPositionsOffset{get; protected set;}
+        public Vector2Int[] BuildablePositionsOffset{get; protected set;}
         public Vector2Int[] OccupiedPositions => GetOccupiedPositions();
+        //................................................
+        protected abstract Vector2Int[] BuildablePositionsOffsetSource {get;}
+        protected abstract Vector2Int[] RootPositionsOffsetSource {get;}
+        protected abstract Vector2Int[] BlockPositionOffsetSource {get;}
         //-----------------------------------------------------------------
-        protected Vector2Int GetBlockSizeWithDirection()
-        {
-            if (Direction == Direction.Right || Direction == Direction.Left)
-                return new Vector2Int(BlockPosition.y, BlockPosition.x);
-            return BlockPosition;
-        }//-----------------------------------------------------------------
+        protected void LoadOffsetSource(){
+            void CheckOffset(){
+
+            }//......................................................
+            BlockPositionsOffset = BlockPositionOffsetSource;
+            RootPositionsOffset = RootPositionsOffsetSource;
+            BuildablePositionsOffset = BuildablePositionsOffsetSource;
+            CheckOffset();
+        }//----------------------------------------------------------------
         protected Vector2Int[] GetOccupiedPositions()
         {
-            List<Vector2Int> positions = new List<Vector2Int>();
-            for(int x=0; x<BlockSizeWithDirection.x; x++)
-            {
-                for(int y=0; y<BlockSizeWithDirection.y; y++)
-                {
-                    positions.Add(new Vector2Int(BlockPosition.x + x, BlockPosition.y + y));
-                }
-            }
-            return positions.ToArray();
+            
         }//-----------------------------------------------------------------
-    }
+        
+    }//=================================================================================
 }
