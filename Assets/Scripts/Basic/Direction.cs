@@ -21,6 +21,24 @@ namespace WMD.Basic{
             {Direction.Right, RadianToVector( DirectionToRadian(Direction.Right).Value )},
             {Direction.Left, RadianToVector( DirectionToRadian(Direction.Left).Value )},
         };//-----------------------------------------------------
+        private const int  MaxDirectionId = (int)Direction.Down;
+
+        public static Direction TurnDirection( Direction direction, int delta ){
+            return (Direction)( ( (int)direction+delta ) % MaxDirectionId );
+        }
+        //--------------------------------------------------
+        public static Direction TurnRight( Direction direction ){
+            return TurnDirection( direction, -1 );
+        }
+        //---------------------------------------------------
+        public static Direction TurnLeft( Direction direction ){
+            return TurnDirection( direction, 1 );
+        }
+        //---------------------------------------------------
+        public static Direction Reverse( Direction direction ){
+            return TurnDirection( direction, 2 );
+        }
+        //---------------------------------------------------
         public static float DegreeToRadian(float degree){
             return degree / 180.0f * Mathf.PI;
         }
@@ -38,5 +56,5 @@ namespace WMD.Basic{
         public static Vector2 DirectionToVector( Direction direction ){
             return vectorTable[ direction ];
         }
-    }//=============================================================================
+    }//===============================================================================
 }
