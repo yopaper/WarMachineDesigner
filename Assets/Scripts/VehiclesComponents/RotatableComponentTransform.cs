@@ -54,6 +54,7 @@ namespace WMD.VehicelsComponents{
         ):base(rootOffset, blockOffset, buildableOffset){
             this.Direction = Direction.Right;
         }
+        //----------------------------------------------------------------------
         public override void SetDirection(Direction direction)
         {
             Rotate( (int)direction - (int)Direction );
