@@ -8,7 +8,7 @@ namespace WMD.VehicelsComponents
     public abstract class ComponentTransform
     {
         // Static
-        public const float ShipComponentSize = 2f;
+        public const float ShipComponentSize = 2f, ShipComponentHeight = 1f;
         //===================================================================
         // Not Static
 
@@ -23,7 +23,7 @@ namespace WMD.VehicelsComponents
         // 零件方向
         public Direction Direction { get; }
         // 中心座標
-        public Vector2 CenterPosition { get; protected set; }
+        public Vector2Int AnchorPoint { get; protected set; }
         // 座標位移.......................................................
         public Vector2Int[] OccupiedPositionsOffset {get; protected set;}
         public Vector2Int[] RootPositionsOffset {get; protected set;}
@@ -78,45 +78,49 @@ namespace WMD.VehicelsComponents
         // Protected
         // 更新索引座標
         protected void UpdateIndex(){
+            // Offset To Index
             RootIndex = OffsetsToIndexPositions( RootPositionsOffset );
             BlockIndex = OffsetsToIndexPositions( BlockPositionsOffset );
             BuildableIndex = OffsetsToIndexPositions( BuildablePositionsOffset );
             OccupiedIndex = OffsetsToIndexPositions( OccupiedPositionsOffset );
+            // Index To Local Position
+            
         }//--------------------------------------------------------------------------
         // 檢查位移量是否合法
         protected void CheckOffset(){
             void CheckOffsetArray( Vector2Int[] array ){
-                string exceptionMessage = "長或寬為偶數時, 位移量不可為零!";
+                string exceptionMessage = "位移{0}有重複!";
+                HashSet< Vector2Int > checkTable = new HashSet<Vector2Int>();
                 for(int i=0; i<array.Length; i++){
-                    if( (EvenWidth && array[i].x==0)||(EvenLength && array[i].y==0) )
-                        throw new System.Exception(exceptionMessage);
+                    if( checkTable.Contains( array[i] ) )
+                        throw new System.Exception( string.Format( exceptionMessage, array[i] ) );
+                    checkTable.Add( array[i] );
                 }
             }//...................................................
-            if( !EvenWidth && !EvenLength )return;
             CheckOffsetArray( RootPositionsOffset );
             CheckOffsetArray( BuildablePositionsOffset );
             CheckOffsetArray( BlockPositionsOffset );
         }//---------------------------------------------------------------------
         // 把一個位移陣列轉換成索引陣列
         protected Vector2Int[] OffsetsToIndexPositions( Vector2Int[] offsets ){
-            List< Vector2Int > indexPositions = new List<Vector2Int>();
+            Vector2Int[] indexPositions = new Vector2Int[ offsets.Length ];
             for(int i=0; i<offsets.Length; i++){
-                Vector2 currentOffset = offsets[i];
-                Vector2 offsetDelta = new Vector2(
-                    ( EvenWidth )? -currentOffset.x /Mathf.Abs(currentOffset.x) /2f:0,
-                    ( EvenLength )? -currentOffset.y /Mathf.Abs(currentOffset.y) /2f:0
+                indexPositions[ i ] = new Vector2Int(
+                    AnchorPoint.x + offsets[i].x,
+                    AnchorPoint.y + offsets[i].y
                 );
-                indexPositions.Add( new Vector2Int(
-                    Mathf.RoundToInt(CenterPosition.x + currentOffset.x + offsetDelta.x),
-                    Mathf.RoundToInt(CenterPosition.y + currentOffset.y + offsetDelta.y)
-                ) );
             }
-            return indexPositions.ToArray();
+            return indexPositions;
         }//-----------------------------------------------------------------
+        // 把索引陣列轉成相對船艦相對偏差
         protected Vector2[] IndexToLoaclPosition( Vector2Int[] indexs)
 		{
-            List<Vector2> positionsList = new List<Vector2>();
-            return positionsList.ToArray();
+            Vector2[] positionArray = new Vector2[ indexs.Length ];
+            for(int i=0; i<indexs.Length; i++){
+                positionArray[i] = new Vector2(
+                    indexs[i].x * SingleBlockSize, indexs[i].y * SingleBlockSize );
+            }
+            return positionArray;
 		}//----------------------------------------------------------------------------
     }//=================================================================================
 }
