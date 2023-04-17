@@ -34,6 +34,8 @@ namespace WMD.VehicelsComponents
         public Vector2Int[] RootIndex {get; protected set;}
         public Vector2Int[] BlockIndex {get; protected set;}
         public Vector2Int[] BuildableIndex {get; protected set;}
+        // 相對座標........................................................
+        public Vector2[] OccupiedLocalPositions { get; protected set; }
         //-----------------------------------------------------------------
         // 建構子
         public ComponentTransform(
@@ -111,5 +113,10 @@ namespace WMD.VehicelsComponents
             }
             return indexPositions.ToArray();
         }//-----------------------------------------------------------------
+        protected Vector2[] IndexToLoaclPosition( Vector2Int[] indexs)
+		{
+            List<Vector2> positionsList = new List<Vector2>();
+            return positionsList.ToArray();
+		}//----------------------------------------------------------------------------
     }//=================================================================================
 }
