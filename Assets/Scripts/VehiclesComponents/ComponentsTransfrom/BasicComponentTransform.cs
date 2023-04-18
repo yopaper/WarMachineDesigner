@@ -19,23 +19,23 @@ namespace WMD.VehicelsComponents
         // 單一格子大小
         public abstract float SingleBlockSize {get;}
         // 零件大小
-        public Vector2Int ComponentSize { get; protected set; }
+        public Vector3Int ComponentSize { get; protected set; }
         // 零件方向
         public Direction Direction { get; }
         // 中心座標
-        public Vector2Int AnchorPoint { get; protected set; }
+        public Vector3Int AnchorPoint { get; protected set; }
         // 座標位移.......................................................
         public Vector2Int[] OccupiedPositionsOffset {get; protected set;}
         public Vector2Int[] RootPositionsOffset {get; protected set;}
         public Vector2Int[] BlockPositionsOffset{get; protected set;}
         public Vector2Int[] BuildablePositionsOffset{get; protected set;}
         // 索引座標........................................................
-        public Vector2Int[] OccupiedIndex {get; protected set;}
-        public Vector2Int[] RootIndex {get; protected set;}
-        public Vector2Int[] BlockIndex {get; protected set;}
-        public Vector2Int[] BuildableIndex {get; protected set;}
+        public Vector3Int[] OccupiedIndex {get; protected set;}
+        public Vector3Int[] RootIndex {get; protected set;}
+        public Vector3Int[] BlockIndex {get; protected set;}
+        public Vector3Int[] BuildableIndex {get; protected set;}
         // 相對座標........................................................
-        public Vector2[] OccupiedLocalPositions { get; protected set; }
+        public Vector3[] OccupiedLocalPositions { get; protected set; }
         //-----------------------------------------------------------------
         // 建構子
         public ComponentTransform(
@@ -75,6 +75,7 @@ namespace WMD.VehicelsComponents
         public abstract void Reverse();
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
         // Protected
         // 更新索引座標
         protected void UpdateIndex(){
@@ -102,22 +103,23 @@ namespace WMD.VehicelsComponents
             CheckOffsetArray( BlockPositionsOffset );
         }//---------------------------------------------------------------------
         // 把一個位移陣列轉換成索引陣列
-        protected Vector2Int[] OffsetsToIndexPositions( Vector2Int[] offsets ){
-            Vector2Int[] indexPositions = new Vector2Int[ offsets.Length ];
+        protected Vector3Int[] OffsetsToIndexPositions( Vector2Int[] offsets ){
+            Vector3Int[] indexPositions = new Vector3Int[ offsets.Length ];
             for(int i=0; i<offsets.Length; i++){
-                indexPositions[ i ] = new Vector2Int(
+                indexPositions[ i ] = new Vector3Int(
                     AnchorPoint.x + offsets[i].x,
-                    AnchorPoint.y + offsets[i].y
+                    AnchorPoint.y + offsets[i].y,
+                    AnchorPoint.z
                 );
             }
             return indexPositions;
         }//-----------------------------------------------------------------
         // 把索引陣列轉成相對船艦相對偏差
-        protected Vector2[] IndexToLoaclPosition( Vector2Int[] indexs)
+        protected Vector3[] IndexToLoaclPosition( Vector3Int[] indexs)
 		{
-            Vector2[] positionArray = new Vector2[ indexs.Length ];
+            Vector3[] positionArray = new Vector3[ indexs.Length ];
             for(int i=0; i<indexs.Length; i++){
-                positionArray[i] = new Vector2(
+                positionArray[i] = new Vector3(
                     indexs[i].x * SingleBlockSize, indexs[i].y * SingleBlockSize );
             }
             return positionArray;
