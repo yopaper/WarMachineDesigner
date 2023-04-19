@@ -24,7 +24,8 @@ namespace WMD.Debug {
                     DrawRect( array[i], rectSize, color );
                 }
             }//.........................................................
-            
+            DrawRectFromArray( transform.OccupiedLocalPositions,
+            transform.SingleBlockSize/2.1f, new Color(1f, 0f, 0f) );
 		}//---------------------------------------------------------------
-    }
+    }//====================================================================
 }

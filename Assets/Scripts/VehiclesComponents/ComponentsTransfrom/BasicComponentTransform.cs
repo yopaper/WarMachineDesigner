@@ -21,7 +21,7 @@ namespace WMD.VehicelsComponents
         // 零件大小
         public Vector3Int ComponentSize { get; protected set; }
         // 零件方向
-        public Direction Direction { get; }
+        public Direction ComponentDirection { get; }
         // 中心座標
         public Vector3Int AnchorPoint { get; protected set; }
         // 座標位移.......................................................
@@ -38,11 +38,13 @@ namespace WMD.VehicelsComponents
         public Vector3[] OccupiedLocalPositions { get; protected set; }
         //-----------------------------------------------------------------
         // 建構子
-        public ComponentTransform(
+        public ComponentTransform( Vector3Int anchorPoint,
             Vector2Int[] rootOffset, Vector2Int[] blockOffset, Vector2Int[] buildableOffset ){
+            // 組成 OccupiedOffset
             void BuildOccupiedOffset(){
                 List< Vector2Int > offsetList = new List<Vector2Int>();
                 HashSet< Vector2Int > offsetHashTable = new HashSet<Vector2Int>();
+                //........................................................
                 void AddOffset( Vector2Int offset ){
                     if( offsetHashTable.Contains(offset) )return;
                     offsetHashTable.Add( offset );
@@ -57,8 +59,11 @@ namespace WMD.VehicelsComponents
                 //........................................................
                 AddOffsetFromArray( RootPositionsOffset );
                 AddOffsetFromArray( BlockPositionsOffset );
+                OccupiedPositionsOffset = offsetList.ToArray();
             }
             //............................................................
+            ComponentDirection = Direction.Right;
+            AnchorPoint = anchorPoint;
             RootPositionsOffset = rootOffset;
             BlockPositionsOffset = blockOffset;
             BuildablePositionsOffset = buildableOffset;
@@ -104,6 +109,7 @@ namespace WMD.VehicelsComponents
         }//---------------------------------------------------------------------
         // 把一個位移陣列轉換成索引陣列
         protected Vector3Int[] OffsetsToIndexPositions( Vector2Int[] offsets ){
+            UnityEngine.Debug.Log( offsets );
             Vector3Int[] indexPositions = new Vector3Int[ offsets.Length ];
             for(int i=0; i<offsets.Length; i++){
                 indexPositions[ i ] = new Vector3Int(

@@ -47,17 +47,17 @@ namespace WMD.VehicelsComponents{
         
         //______________________________________________________________________________________
         // Not Static
-        public new Direction Direction{get; protected set;}
+        public new Direction ComponentDirection{get; protected set;}
         //-----------------------------------------------------------------------
-        public RotatableComponentTransform(
+        public RotatableComponentTransform( Vector3Int anchorPoint, Direction direction,
             Vector2Int[] rootOffset, Vector2Int[] blockOffset, Vector2Int[] buildableOffset 
-        ):base(rootOffset, blockOffset, buildableOffset){
-            this.Direction = Direction.Right;
+        ):base( anchorPoint, rootOffset, blockOffset, buildableOffset ){
+            SetDirection( direction );
         }
         //----------------------------------------------------------------------
         public override void SetDirection(Direction direction)
         {
-            Rotate( (int)direction - (int)Direction );
+            Rotate( (int)direction - (int)ComponentDirection );
         }//------------------------------------------------------------
         public override void Rotate( int delta ){
             int[][] matrix = GetRightAngleMatrix( delta );
@@ -65,7 +65,7 @@ namespace WMD.VehicelsComponents{
             MultiRotatedMatrix( BlockPositionsOffset, matrix );
             MultiRotatedMatrix( BuildablePositionsOffset, matrix );
             MultiRotatedMatrix( OccupiedPositionsOffset, matrix );
-            Direction = DirectionHandler.TurnDirection( Direction, delta );
+            ComponentDirection = DirectionHandler.TurnDirection( ComponentDirection, delta );
             UpdateIndex();
         }//-------------------------------------------------------------
         public override void TurnRight()
