@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WMD.VehicelsComponents;
 
-namespace WMD.Debug {
+namespace WMD.DebugFunction {
     public static class ComponentTransformDebug
     {
         private static void DrawRect( Vector3 position, float size, Color color ){
@@ -26,6 +26,10 @@ namespace WMD.Debug {
             }//.........................................................
             DrawRectFromArray( transform.OccupiedLocalPositions,
             transform.SingleBlockSize/2.1f, new Color(1f, 0f, 0f) );
+            DrawRectFromArray( transform.RootLocalPositions,
+            transform.SingleBlockSize/2.3f, new Color(0f, 1f, 0f) );
+            DrawRectFromArray( transform.BlockLocakPositions,
+            transform.SingleBlockSize/2.3f, new Color(0f, 1f, 1f) );
 		}//---------------------------------------------------------------
     }//====================================================================
 }

@@ -36,6 +36,8 @@ namespace WMD.VehicelsComponents
         public Vector3Int[] BuildableIndex {get; protected set;}
         // 相對座標........................................................
         public Vector3[] OccupiedLocalPositions { get; protected set; }
+        public Vector3[] RootLocalPositions {get; protected set;}
+        public Vector3[] BlockLocakPositions {get; protected set;}
         //-----------------------------------------------------------------
         // 建構子
         public ComponentTransform( Vector3Int anchorPoint,
@@ -90,7 +92,9 @@ namespace WMD.VehicelsComponents
             BuildableIndex = OffsetsToIndexPositions( BuildablePositionsOffset );
             OccupiedIndex = OffsetsToIndexPositions( OccupiedPositionsOffset );
             // Index To Local Position
-            
+            OccupiedLocalPositions = IndexToLoaclPosition( OccupiedIndex );
+            RootLocalPositions = IndexToLoaclPosition( RootIndex );
+            BlockLocakPositions = IndexToLoaclPosition( BlockIndex );
         }//--------------------------------------------------------------------------
         // 檢查位移量是否合法
         protected void CheckOffset(){
