@@ -6,6 +6,8 @@ namespace WMD.VehicelsComponents
 {
     public abstract class VehiclesComponents : MonoBehaviour
     {
-        // 123456
+        public VehicleComponentTransform ComponentTransform {get; protected set;}
+        public abstract bool BaseComponent {get;}
+        
     }//=================================================================
 }

@@ -5,7 +5,7 @@ using WMD.Basic;
 
 namespace WMD.VehicelsComponents
 {
-    public abstract class ComponentTransform
+    public abstract class VehicleComponentTransform
     {
         // Static
         public const float ShipComponentSize = 2f, ShipComponentHeight = 1f;
@@ -24,6 +24,8 @@ namespace WMD.VehicelsComponents
         public Direction ComponentDirection { get; }
         // 中心座標
         public Vector3Int AnchorPoint { get; protected set; }
+        // 用於設定物件座標
+        public Vector3 CenterPoint { get; protected set; }
         // 座標位移.......................................................
         public Vector2Int[] OccupiedPositionsOffset {get; protected set;}
         public Vector2Int[] RootPositionsOffset {get; protected set;}
@@ -40,7 +42,7 @@ namespace WMD.VehicelsComponents
         public Vector3[] BlockLocakPositions {get; protected set;}
         //-----------------------------------------------------------------
         // 建構子
-        public ComponentTransform( Vector3Int anchorPoint,
+        public VehicleComponentTransform( Vector3Int anchorPoint,
             Vector2Int[] rootOffset, Vector2Int[] blockOffset, Vector2Int[] buildableOffset ){
             // 組成 OccupiedOffset
             void BuildOccupiedOffset(){
@@ -86,6 +88,29 @@ namespace WMD.VehicelsComponents
         // Protected
         // 更新索引座標
         protected void UpdateIndex(){
+            void UpdateCenterPoint(){
+                if( RootLocalPositions.Length <= 0 ) return;
+                Vector3 firstPosition = RootLocalPositions[0];
+                float xMax = firstPosition.x, xMin = firstPosition.x,
+                yMax = firstPosition.y, yMin = firstPosition.y;
+                for(int i=0; i<RootLocalPositions.Length; i++){
+                    Vector3 position = RootLocalPositions[i];
+                    if( position.x > xMax ){
+                        xMax = position.x;
+                    }
+                    if( position.x < xMin ){
+                        xMin = position.x;
+                    }
+                    if( position.y > yMax ){
+                        yMax = position.y;
+                    }
+                    if( position.y < yMin ){
+                        yMin = position.y;
+                    }
+                }
+                CenterPoint = new Vector3(
+                    (xMax + xMin)/2, (yMax + yMin)/2, AnchorPoint.z );
+            }//............................................................
             // Offset To Index
             RootIndex = OffsetsToIndexPositions( RootPositionsOffset );
             BlockIndex = OffsetsToIndexPositions( BlockPositionsOffset );
@@ -95,6 +120,8 @@ namespace WMD.VehicelsComponents
             OccupiedLocalPositions = IndexToLoaclPosition( OccupiedIndex );
             RootLocalPositions = IndexToLoaclPosition( RootIndex );
             BlockLocakPositions = IndexToLoaclPosition( BlockIndex );
+
+            UpdateCenterPoint();
         }//--------------------------------------------------------------------------
         // 檢查位移量是否合法
         protected void CheckOffset(){

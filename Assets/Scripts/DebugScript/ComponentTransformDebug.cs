@@ -17,7 +17,7 @@ namespace WMD.DebugFunction {
             UnityEngine.Debug.DrawLine( rightBottom, leftBottom, color, 0.1f );
             UnityEngine.Debug.DrawLine( leftBottom, leftTop, color, 0.1f );
         }//--------------------------------------------------------------
-        public static void DrawTransformRect( ComponentTransform transform )
+        public static void DrawTransformRect( VehicleComponentTransform transform )
 		{
             void DrawRectFromArray( Vector3[] array, float rectSize, Color color ){
                 for(int i=0; i<array.Length; i++){
@@ -30,6 +30,7 @@ namespace WMD.DebugFunction {
             transform.SingleBlockSize/2.3f, new Color(0f, 1f, 0f) );
             DrawRectFromArray( transform.BlockLocakPositions,
             transform.SingleBlockSize/2.5f, new Color(0f, 1f, 1f) );
+            DrawRect( transform.CenterPoint, transform.SingleBlockSize/3f, new Color(1f, 1f, 1f) );
 		}//---------------------------------------------------------------
     }//====================================================================
 }

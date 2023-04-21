@@ -4,7 +4,7 @@ using UnityEngine;
 
 using WMD.Basic;
 namespace WMD.VehicelsComponents{
-    public abstract class RotatableComponentTransform : ComponentTransform
+    public abstract class RotatableComponentTransform : VehicleComponentTransform
     {
         // Static
         protected static Dictionary<int, int[][]> RightAngleTable

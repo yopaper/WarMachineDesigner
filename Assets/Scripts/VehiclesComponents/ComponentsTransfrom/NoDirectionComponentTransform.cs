@@ -4,7 +4,7 @@ using UnityEngine;
 using WMD.Basic;
 
 namespace WMD.VehicelsComponents{
-    public abstract class NoDirectionComponentTransform : ComponentTransform
+    public abstract class NoDirectionComponentTransform : VehicleComponentTransform
     {
         new public Direction ComponentDirection => Direction.Null;
         public NoDirectionComponentTransform( Vector3Int anchorPoint,
