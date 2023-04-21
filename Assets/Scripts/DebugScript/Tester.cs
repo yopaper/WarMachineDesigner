@@ -8,6 +8,7 @@ namespace WMD.DebugFunction{
     public class Tester : MonoBehaviour
     {
         protected ShipRotatableComponentTransform srct;
+        protected float coolDown = 0;
         void Start()
         {
             srct = new ShipRotatableComponentTransform(
@@ -20,6 +21,12 @@ namespace WMD.DebugFunction{
         void Update()
         {
             ComponentTransformDebug.DrawTransformRect( srct );
+            coolDown += Time.deltaTime;
+            if( coolDown >= 5f )
+            {
+                coolDown = 0;
+                srct.TurnRight();
+            }
         }//--------------------------------------------------------------
     }
 }

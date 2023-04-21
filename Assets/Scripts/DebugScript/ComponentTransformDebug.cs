@@ -29,7 +29,7 @@ namespace WMD.DebugFunction {
             DrawRectFromArray( transform.RootLocalPositions,
             transform.SingleBlockSize/2.3f, new Color(0f, 1f, 0f) );
             DrawRectFromArray( transform.BlockLocakPositions,
-            transform.SingleBlockSize/2.3f, new Color(0f, 1f, 1f) );
+            transform.SingleBlockSize/2.5f, new Color(0f, 1f, 1f) );
 		}//---------------------------------------------------------------
     }//====================================================================
 }
