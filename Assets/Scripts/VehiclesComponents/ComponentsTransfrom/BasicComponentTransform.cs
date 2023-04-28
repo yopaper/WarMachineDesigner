@@ -77,6 +77,10 @@ namespace WMD.VehicelsComponents
         }
         //------------------------------------------------------------------
         // Public
+        public virtual void SetAnchorPoint(Vector3Int anchorPoint){
+            AnchorPoint = anchorPoint;
+            UpdateIndex();
+        }//----------------------------------------------------------------
         public abstract void Rotate( int delta );
         public abstract void SetDirection( Direction direction );
         public abstract void TurnRight();
@@ -88,6 +92,7 @@ namespace WMD.VehicelsComponents
         // Protected
         // 更新索引座標
         protected void UpdateIndex(){
+            // 更新中心位置
             void UpdateCenterPoint(){
                 if( RootLocalPositions.Length <= 0 ) return;
                 Vector3 firstPosition = RootLocalPositions[0];
@@ -140,7 +145,7 @@ namespace WMD.VehicelsComponents
         }//---------------------------------------------------------------------
         // 把一個位移陣列轉換成索引陣列
         protected Vector3Int[] OffsetsToIndexPositions( Vector2Int[] offsets ){
-            UnityEngine.Debug.Log( offsets );
+            //UnityEngine.Debug.Log( offsets );
             Vector3Int[] indexPositions = new Vector3Int[ offsets.Length ];
             for(int i=0; i<offsets.Length; i++){
                 indexPositions[ i ] = new Vector3Int(

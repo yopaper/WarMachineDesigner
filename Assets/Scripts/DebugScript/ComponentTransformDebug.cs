@@ -4,7 +4,7 @@ using UnityEngine;
 using WMD.VehicelsComponents;
 
 namespace WMD.DebugFunction {
-    public static class ComponentTransformDebug
+    public static class DebugDrawer
     {
         private static void DrawRect( Vector3 position, float size, Color color ){
             Vector3

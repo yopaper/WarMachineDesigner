@@ -19,5 +19,8 @@ namespace WMD.VehicelsComponents{
         public ShipNoDirectionComponentTransform( Vector3Int anchorPoint,
             Vector2Int[] rootOffset, Vector2Int[] blockOffset, Vector2Int[] buildableOffset
         ):base( anchorPoint, rootOffset, blockOffset, buildableOffset ) {}
+        public ShipNoDirectionComponentTransform(
+            Vector2Int[] rootOffset, Vector2Int[] blockOffset, Vector2Int[] buildableOffset
+        ):this( Vector3Int.zero, rootOffset, blockOffset, buildableOffset ) {}
     }//=================================================================
 }
