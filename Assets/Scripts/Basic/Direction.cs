@@ -8,6 +8,10 @@ namespace WMD.Basic{
         Null=5, Up=1, Down=3, Left=2, Right=0
     }//============================================================================
     public static class DirectionHandler{
+        private static Dictionary<Direction, int> degreeTable = 
+        new Dictionary<Direction, int>(){
+            {Direction.Up, 90}, {Direction.Down, 270}, {Direction.Right, 0}, {Direction.Left, 180}
+        };//----------------------------------------------------------------
         private static Dictionary<Direction, float> radianTable =
         new Dictionary<Direction, float>(){
             {Direction.Up, DegreeToRadian(90)}, {Direction.Down, DegreeToRadian(270)},
@@ -22,7 +26,7 @@ namespace WMD.Basic{
             {Direction.Left, RadianToVector( DirectionToRadian(Direction.Left).Value )},
         };//-----------------------------------------------------
         private const int  MaxDirectionId = (int)Direction.Down;
-
+        
         public static Direction TurnDirection( Direction direction, int delta ){
             return (Direction)( ( (int)direction+delta ) % MaxDirectionId );
         }
@@ -39,6 +43,10 @@ namespace WMD.Basic{
             return TurnDirection( direction, 2 );
         }
         //---------------------------------------------------
+        public static int DirectionToDegree(Direction direction){
+            return degreeTable[direction];
+        }
+        //----------------------------------------------------
         public static float DegreeToRadian(float degree){
             return degree / 180.0f * Mathf.PI;
         }

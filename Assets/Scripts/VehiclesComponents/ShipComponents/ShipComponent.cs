@@ -13,4 +13,14 @@ namespace WMD.VehicelsComponents{
             set{VehicleOwner = value;} }
         
     }//=================================================================
+
+    public abstract class ShipWeaponComponent : ShipComponent, IWeaponComponent{
+        public WeaponRotator Rotator{get; protected set;}
+        protected abstract WeaponRotator RotatorSource{get;}
+        protected override void InitialVariable()
+        {
+            base.InitialVariable();
+            Rotator = RotatorSource;
+        }//---------------------------------------------------------
+    }//==================================================================
 }

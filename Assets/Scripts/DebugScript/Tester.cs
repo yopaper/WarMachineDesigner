@@ -10,23 +10,34 @@ namespace WMD.DebugFunction{
     {
         protected ShipRotatableComponentTransform srct;
         protected Ship ship;
+        ShipWeaponComponent cannon;
         protected float coolDown = 0;
-        void Start()
+        void Awake()
         {
             ship = Ship.CreateEmptyShip();
-            Debug.Log( ShipBlock1x1.PrefabSource );
-            ShipBlock1x1 sb;
-            sb = VehicleComponent.CreateVehicleComponentObject<ShipBlock1x1>( ShipBlock1x1.PrefabSource );
-            sb.ComponentTransform.SetAnchorPoint( new Vector3Int(0, 1, 0) );
-            ship.AddComponent( sb );
-            sb = VehicleComponent.CreateVehicleComponentObject<ShipBlock1x1>( ShipBlock1x1.PrefabSource );
-            sb.ComponentTransform.SetAnchorPoint( new Vector3Int(1, 0, 0) );
-            ship.AddComponent( sb );
-            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject<ShipBlock2x2>( ShipBlock2x2.PrefabSource, new Vector3Int(1, 1, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock3x3.PrefabSource, new Vector3Int(0, 0, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock3x3.PrefabSource, new Vector3Int(0, -3, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock3x3.PrefabSource, new Vector3Int(0, 3, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock2x2.PrefabSource, new Vector3Int(2, -2, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock2x2.PrefabSource, new Vector3Int(-3, -2, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock1x1.PrefabSource, new Vector3Int(-2, 1, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock1x1.PrefabSource, new Vector3Int(-2, 0, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock1x1.PrefabSource, new Vector3Int(2, 1, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock1x1.PrefabSource, new Vector3Int(2, 0, 0) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock1x1.PrefabSource, new Vector3Int(0, 0, 1) ) );
+            ship.AddComponent( VehicleComponent.CreateVehicleComponentObject( ShipBlock3x3.PrefabSource, new Vector3Int(0, -2, 1) ) );
+            cannon = VehicleComponent.CreateVehicleComponentObject<ShipWeaponComponent>(
+                ShipTurret127x1.PrefabSource, new Vector3Int(0, 3, 1) );
+            ship.AddComponent( cannon );
+            ship.UpdateGravityCenter();
         }//--------------------------------------------------------------
         void Update()
         {
-            
+            coolDown += 1;
+            if( coolDown >= 10 ){
+                coolDown = 0;
+                cannon.Rotator.RotateToDegree(270);
+            }
         }//--------------------------------------------------------------
     }
 }

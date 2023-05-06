@@ -15,7 +15,7 @@ namespace WMD.VehicelsComponents{
             new Vector2Int[]{ new Vector2Int(0, 0) }
         );
         protected override VehicleComponentData DataSource => new VehicleComponentData(
-            hp:0, mass:0
+            hp:0, mass:10
         );
     }
 }
